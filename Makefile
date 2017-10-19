@@ -70,4 +70,4 @@ inspect_dataset: ## Inspect the dataset
 	@$(PATH_VENV)'/bin/python3.5' -m smh_eyetracking.inspect_dataset.inspect_dataset
 
 start_notebooks: ## Start the Jupyter notebook server
-	@$(PATH_VENV)/bin/jupyter notebook --NotebookApp.default_url=/tree/smh_eyetracking/notebooks
+	@$(PATH_VENV)/bin/jupyter notebook --NotebookApp.default_url=/tree/smh_eyetracking/notebooks --ip=0.0.0.0
