@@ -4,7 +4,7 @@
 
 import numpy as np
 import pandas as pd
-import sklearn.model_selection
+from sklearn.model_selection import train_test_split
 
 
 def load(file_data, file_imgs_left, file_imgs_right): # TODO move params
@@ -22,61 +22,24 @@ def load(file_data, file_imgs_left, file_imgs_right): # TODO move params
     )
 
 
-def split(data, imgs_left, imgs_right, train_size, validation_size, random_state=42):
-    (  # Train - Test
-        train_data, test_data,
-        train_imgs_left, test_imgs_left,
-        train_imgs_right, test_imgs_right
-    ) = sklearn.model_selection.train_test_split(
-        data, imgs_left, imgs_right,
-        train_size=train_size,
-        random_state=22
-    )
-    assert(len(train_data)==len(train_imgs_left)==len(train_imgs_right))
-    assert(len(test_data)==len(test_imgs_left)==len(test_imgs_right))
-    # Train - validation
-    (
-        train_data, validation_data,
-        train_imgs_left, validation_imgs_left,
-        train_imgs_right, validation_imgs_right
-    ) = sklearn.model_selection.train_test_split(
-        train_data, train_imgs_left, train_imgs_right,
-        train_size=train_size,
-        random_state=22
-    )
-    assert(len(train_data)==len(train_imgs_left)==len(train_imgs_right))
-    assert(len(validation_data)==len(validation_imgs_left)==len(validation_imgs_right))
+def split(data, imgs_left, imgs_right, validation_size, test_size, random_state=42):
+    """Split the augmented data into train, validation and test.
+    
+    """
+    imgs = list(set(data['img'])) # original images, index used to split
+    index_not_augmented = data['eye_right_image'].str.endswith('_0.jpg')  # 0 images are the original
+    # Test data
+    (train_val_imgs, test_imgs) = train_test_split(imgs, train_size=1-test_size, random_state=random_state)
+    index_test_augmented = data['img'].isin(test_imgs)
+    index_test = index_test_augmented & index_not_augmented
+    # Validation data
+    (train_imgs, val_imgs) = train_test_split(train_val_imgs, train_size=1-validation_size, random_state=random_state)
+    index_val_augmented = data['img'].isin(val_imgs)
+    index_val = index_val_augmented & index_not_augmented
+    # Train data (augmented)
+    index_train = data['img'].isin(train_imgs)
     return(
-        (train_data, train_imgs_left, train_imgs_right),
-        (validation_data, validation_imgs_left, validation_imgs_right),
-        (test_data, test_imgs_left, test_imgs_right)
+        (data[index_train], imgs_left[index_train], imgs_right[index_train]),
+        (data[index_val], imgs_left[index_val], imgs_right[index_val]),
+        (data[index_test], imgs_left[index_test], imgs_right[index_test])
     )
-
-
-# def get_batch(data, imgs_left, imgs_right, batch_size):
-#     """Get a batch
-#
-#     Parameters
-#     ----------
-#     data: pandas DataFrame
-#     imgs_left: left-eye images array
-#     imgs_right: right-eye images array
-#     batch_size: int
-#
-#     Returns
-#     -------
-#     _ : np.array
-#     _ : np.array
-#     _ : np.array
-#     """
-#     index = np.arange(len(data))
-#     np.random.shuffle(index)  # Stochastic order
-#     data_random = data.iloc[index]
-#     imgs_left_random = imgs_left[index]
-#     imgs_right_random = imgs_right[index]
-#     for i in range(0, len(data), batch_size):
-#         yield(
-#             data_random[i:i+batch_size],
-#             imgs_left_random[i:i+batch_size],
-#             imgs_right_random[i:i+batch_size]
-#         )
