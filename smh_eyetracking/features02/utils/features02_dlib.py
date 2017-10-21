@@ -12,11 +12,29 @@ EYE_BBOX_SCALE_HEIGHT = 1.7
 
 
 # Features with predictive power
-jawline = list(range(0,17))
-nose = list(range(27,36))
-eyes = list(range(36,48))
-facepoints = jawline + nose + eyes
-FEATURES = ['face.x', 'face.y', 'face.width', 'face.height']+[str(i)+'.x' for i in facepoints]+[str(i)+'.y' for i in facepoints]
+JAWLINE = [
+    i for sub in
+    [(str(i)+'.x', str(i)+'.y') for i in list(range(0,17))]
+    for i in sub
+]
+
+NOSE = [
+    i for sub in
+    [(str(i)+'.x', str(i)+'.y') for i in list(range(27,36))]
+    for i in sub
+]
+LEFT_EYE = [
+    i for sub in
+    [(str(i)+'.x', str(i)+'.y') for i in list(range(36,42))]
+    for i in sub
+]
+RIGHT_EYE = [
+    i for sub in
+    [(str(i)+'.x', str(i)+'.y') for i in list(range(42,48))]
+    for i in sub
+]
+FACE = ['face.x', 'face.y', 'face.width', 'face.height']
+FEATURES = FACE + JAWLINE + NOSE + LEFT_EYE + RIGHT_EYE
 
 # FEATURES = ['face.x', 'face.y', 'face.width', 'face.height']+[str(i)+'.x' for i in range(68)]+[str(i)+'.y' for i in range(68)]
 TARGETS = ['x','y']
