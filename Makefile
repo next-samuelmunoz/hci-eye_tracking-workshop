@@ -39,6 +39,8 @@ install: ## Create a development environment (virtualenv).
 	@echo "Create the environment in "$(PATH_PROJECT)
 	@virtualenv -p python3.5 $(PATH_VENV)
 	@echo "Install requirements"
+	# Install packages in order
+	$(PATH_VENV)'/bin/pip' install python-xlib==0.19
 	$(PATH_VENV)'/bin/pip' install -r $(PATH_PROJECT)'/deploy/requirements.txt'
 	@echo "Create symbolic links"
 	# Link to project
