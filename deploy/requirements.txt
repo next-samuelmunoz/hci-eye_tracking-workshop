@@ -7,7 +7,6 @@ pandas==0.20.2
 PyAutoGUI==0.9.36
 PyV4L2Camera==0.1a2
 pygame==1.9.3
-python-xlib==0.19
 scikit-image==0.13.0
 scikit-learn==0.18.2
 scipy==0.19.0
