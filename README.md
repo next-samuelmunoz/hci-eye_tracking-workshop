@@ -22,6 +22,9 @@ apt-get install build-essential cmake pkg-config libx11-dev libatlas-base-dev li
 # PyautoGUI (mouse controller)
 # See: http://pyautogui.readthedocs.io/en/latest/install.html
 apt-get install scrot python3-tk python3-dev
+
+# WebCam
+apt-get install libv4l-dev
 ```
 
 ### Install the project
