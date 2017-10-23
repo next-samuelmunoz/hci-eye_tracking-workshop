@@ -1,5 +1,7 @@
+data/raw
 data/features02_dlib_augmented
 data/features02_dlib_augmented_norm
+
 __pycache__
 venv3.5
 smh_eyetracking/config_local.py
