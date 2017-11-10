@@ -60,7 +60,7 @@ install: ## Create a development environment (virtualenv).
 #
 
 run_game: ## Start the game
-	@$(PATH_VENV)'/bin/python3.5' -m smh_eyetracking.game.game
+	@clear ; while true ; do echo "Press ENTER to play again" ; read NONE; clear ; $(PATH_VENV)'/bin/python3.5' -m smh_eyetracking.game.game ; done
 
 build_features: ## Build the features02 dataset
 	@$(PATH_VENV)'/bin/python3.5' -m smh_eyetracking.features02.build
